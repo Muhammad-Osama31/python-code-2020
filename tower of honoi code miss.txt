@@ -1,0 +1,10 @@
+disk=5
+firstrod='A'
+secondrod='B'
+thirdrod='C'
+def towerofHonoi(n,firstrod,secondrod,thirdrod):
+    if n>0:
+        towerofHonoi(n-1,firstrod,thirdrod,secondrod)
+        print('move disk from',firstrod,'to',secondrod)
+        towerofHonoi(n-1,thirdrod,secondrod,firstrod)
+towerofHonoi(disk,firstrod,secondrod,thirdrod)    

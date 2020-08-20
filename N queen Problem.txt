@@ -1,0 +1,73 @@
+
+class QueenChessBoard:
+    def __init__(self, size):
+        self.size = size
+        self.columns = []
+ 
+    def get_size(self):
+        return self.size
+ 
+    def queens_count(self):
+        return len(self.columns)
+ 
+    def next_row(self, column):
+        self.columns.append(column)
+ 
+    def current_row(self):
+        return self.columns.pop()
+ 
+    def is_this_column_safe_in_next_row(self, column):
+        row = len(self.columns)
+ 
+        for queen_column in self.columns:
+            if column == queen_column:
+                return False
+ 
+        for queen_row, queen_column in enumerate(self.columns):
+            if queen_column - queen_row == column - row:
+                return False
+ 
+        for queen_row, queen_column in enumerate(self.columns):
+            if ((self.size - queen_column) - queen_row
+                == (self.size - column) - row):
+                return False
+ 
+        return True
+ 
+    def goal(self):
+        for row in range(self.size):
+            for column in range(self.size):
+                if column == self.columns[row]:
+                    print('Q', end=' ')
+                else:
+                    print('.', end=' ')
+            print()
+ 
+ 
+def successor(size):
+    board = QueenChessBoard(size)
+    number_of_solutions = path_cost(board)
+    print('Number of solutions:', number_of_solutions)
+ 
+def path_cost(board):
+    size = board.get_size()
+ 
+    # if board is full, display solution
+    if size == board.queens_count():
+        board.goal()
+        print()
+        return 1
+ 
+    number_of_solutions = 0
+    # place queen in next row
+    for column in range(size):
+        if board.is_this_column_safe_in_next_row(column):
+            board.next_row(column)
+            number_of_solutions += path_cost(board)
+            board.current_row()
+ 
+    return number_of_solutions
+ 
+ 
+n = int(input('Enter n: '))
+successor(n)
